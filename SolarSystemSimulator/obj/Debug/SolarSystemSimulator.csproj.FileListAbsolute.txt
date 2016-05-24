@@ -1,0 +1,15 @@
+c:\users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\bin\Debug\SolarSystemSimulator.exe.config
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\bin\Debug\SolarSystemSimulator.exe
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\bin\Debug\SolarSystemSimulator.pdb
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator.csprojResolveAssemblyReference.cache
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\MainWindow.g.cs
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\App.g.cs
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator_MarkupCompile.cache
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator_MarkupCompile.lref
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\MainWindow.baml
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator.g.resources
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator.Properties.Resources.resources
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator.csproj.GenerateResource.Cache
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator.exe
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\SolarSystemSimulator.pdb
+C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\GeneratedInternalTypeHelper.g.cs

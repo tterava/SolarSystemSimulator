@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Debug\
 SolarSystemSimulator
 none
 false
 DEBUG;TRACE
-C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\App.xaml
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\App.xaml
 11151548125
 
 12-536365773
 13738642453
 MainWindow.xaml;
 
-False
+True
 

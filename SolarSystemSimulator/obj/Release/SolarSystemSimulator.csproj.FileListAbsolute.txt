@@ -12,3 +12,17 @@ C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarS
 C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.csproj.GenerateResource.Cache
 C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.exe
 C:\Users\tommi\documents\visual studio 2015\Projects\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.pdb
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\bin\Release\SolarSystemSimulator.exe.config
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.exe
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.pdb
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\bin\Release\SolarSystemSimulator.exe
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\bin\Release\SolarSystemSimulator.pdb
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.csprojResolveAssemblyReference.cache
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\MainWindow.g.cs
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\App.g.cs
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator_MarkupCompile.cache
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator_MarkupCompile.lref
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\MainWindow.baml
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.g.resources
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.Properties.Resources.resources
+C:\Users\tommi\Source\Repos\SolarSystemSimulator\SolarSystemSimulator\obj\Release\SolarSystemSimulator.csproj.GenerateResource.Cache

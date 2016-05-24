@@ -29,7 +29,7 @@ namespace SolarSystemSimulator
 
         Dictionary<int, Ellipse> ellipses = new Dictionary<int, Ellipse>();
 
-        private Vector3D camera = new Vector3D(0, 400E6, 0);
+        private Vector3D camera = new Vector3D(0, -350E6, 60E6);
         private Vector3D cameraTarget = new Vector3D(0, 0, 0);
         private double fieldOfView = 70;
         private Point mouseOrigin;
@@ -40,6 +40,8 @@ namespace SolarSystemSimulator
         private static Vector3D unitVectorY = new Vector3D(0, 1, 0);
         private static Vector3D unitVectorZ = new Vector3D(0, 0, 1);
 
+        public const double AU = 149597870.7;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,28 +49,20 @@ namespace SolarSystemSimulator
 
             Loaded += delegate
             {
-                simulator.addBody("UpBody", 1E29, new Vector3D(40780, 0, 0), new Vector3D(0, 0, 70E6), 1737.1, 5E8, Brushes.Green);
-                simulator.addBody("DownBody", 1E29, new Vector3D(-40780, 0, 0), new Vector3D(0, 0, -70E6), 1737.1, 5E8, Brushes.Green);
-                simulator.addBody("Sun", 1.98855E30, new Vector3D(0, 0, 0), origin, 695700 * 40, 1, Brushes.Yellow);
-                simulator.addBody("Earth", 5.97237E24, new Vector3D(0, 29780, 0), new Vector3D(149598023, 0, 0), 6371.0, 1E8, Brushes.Blue);
-                simulator.addBody("Mercury", 3.3011E23, new Vector3D(0, 47362, 0), new Vector3D(57909050, 0, 0), 2439.7, 1E8, Brushes.Red);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 21780 + 1022, 0), new Vector3D(384399 + 165980234, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 22780 + 1022, 0), new Vector3D(384399 + 162598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 23780 + 1022, 0), new Vector3D(384399 + 160598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 24780 + 1022, 0), new Vector3D(384399 + 156598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 25780 + 1022, 0), new Vector3D(384399 + 152598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 26780 + 1022, 0), new Vector3D(384399 + 146598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 27780 + 1022, 0), new Vector3D(384399 + 149598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 28780 + 1022, 0), new Vector3D(384399 + 140598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 29780 + 1022, 0), new Vector3D(149598023 + 384399, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 30780 + 1022, 0), new Vector3D(384399 + 120598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 31780 + 1022, 0), new Vector3D(384399 + 110598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 32780 + 1022, 0), new Vector3D(384399 + 100598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 33780 + 1022, 0), new Vector3D(384399 + 90598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 34780 + 1022, 0), new Vector3D(384399 + 80598023, 0, 0), 1737.1, 1E8, Brushes.White);
-                simulator.addBody("Moon", 1E29, new Vector3D(0, -40780, 0), new Vector3D(-70E6, 0, 0), 1737.1, 5E8, Brushes.Green);
-
                 myCanvas.Background = Brushes.Black;
+
+                simulator.addBody("Sun", 1.98855E30, new Vector3D(0, 0, 0), origin, 695700, 20, Brushes.Yellow);
+                simulator.addBody("Mercury", 3.3011E23, new Vector3D(0, 47362, 0), new Vector3D(57909050, 0, 0), 2439.7, 1E7, Brushes.Red);
+                simulator.addBody("Venus", 4.8675E24, new Vector3D(0, -35020, 0), new Vector3D(-108208E3, 0, 0), 6051.8, 1E7, Brushes.Green);
+                simulator.addBody("Earth", 5.97237E24, new Vector3D(0, 29780, 0), new Vector3D(149598023, 0, 0), 6371.0, 1E7, Brushes.Blue);
+                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 29780 + 1022, 0), new Vector3D(149598023 + 384399, 0, 0), 1737.1, 1E7, Brushes.White);
+                simulator.addBody("Mars", 6.4171E24, new Vector3D(-24077, 0, 0), new Vector3D(0, 1.523679 * AU, 0), 3389.5, 1E7, Brushes.OrangeRed);
+                simulator.addBody("Jupiter", 1.8986E27, new Vector3D(-13070, 0, 0), new Vector3D(0, 5.20260 * AU, 0), 71492, 1E6, Brushes.GhostWhite);
+                simulator.addBody("Europa", 5.799844E22, new Vector3D(-13070 - 13740, 0, 0), new Vector3D(0, 5.20260 * AU + 670900, 0), 1560.8, 1E6, Brushes.LightYellow);
+                simulator.addBody("Saturn", 5.6836E26, new Vector3D(0, 9690, 0), new Vector3D(9.554909 * AU, 0, 0), 58232, 1E6, Brushes.Gray);
+                simulator.addBody("Uranus", 8.6810E25, new Vector3D(6800, 0, 0), new Vector3D(0, -19.2184 * AU, 0), 25362, 1E8, Brushes.Cyan);
+                simulator.addBody("Neptune", 1.0243E26, new Vector3D(5430, 0, 0), new Vector3D(0, -30.110387 * AU, 0), 24622, 1E8, Brushes.Blue);
+
 
                 /*
                 PathFigure myPathFigure = new PathFigure();

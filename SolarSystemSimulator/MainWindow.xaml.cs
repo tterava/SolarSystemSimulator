@@ -26,14 +26,15 @@ namespace SolarSystemSimulator
     public partial class MainWindow : Window
     {
         Simulator simulator = new Simulator();
+        List<CelestialBody> bodies = new List<CelestialBody>();
 
-        Dictionary<int, Ellipse> ellipses = new Dictionary<int, Ellipse>();
+        Dictionary<long, Ellipse> ellipses = new Dictionary<long, Ellipse>();
 
         private Vector3D camera = new Vector3D(0, -350E6, 60E6);
         private Vector3D cameraTarget = new Vector3D(0, 0, 0);
         private double fieldOfView = 70;
         private Point mouseOrigin;
-        private int targetUniqueID = 0;
+        private long targetUniqueID = 0;
 
         private static Vector3D origin = new Vector3D(0, 0, 0);
         private static Vector3D unitVectorX = new Vector3D(1, 0, 0);
@@ -51,17 +52,17 @@ namespace SolarSystemSimulator
             {
                 myCanvas.Background = Brushes.Black;
 
-                simulator.addBody("Sun", 1.98855E30, new Vector3D(0, 0, 0), origin, 695700, 20, Brushes.Yellow);
-                simulator.addBody("Mercury", 3.3011E23, new Vector3D(0, 47362, 0), new Vector3D(57909050, 0, 0), 2439.7, 1E7, Brushes.Red);
-                simulator.addBody("Venus", 4.8675E24, new Vector3D(0, -35020, 0), new Vector3D(-108208E3, 0, 0), 6051.8, 1E7, Brushes.Green);
-                simulator.addBody("Earth", 5.97237E24, new Vector3D(0, 29780, 0), new Vector3D(149598023, 0, 0), 6371.0, 1E7, Brushes.Blue);
-                simulator.addBody("Moon", 7.342E22, new Vector3D(0, 29780 + 1022, 0), new Vector3D(149598023 + 384399, 0, 0), 1737.1, 1E7, Brushes.White);
-                simulator.addBody("Mars", 6.4171E24, new Vector3D(-24077, 0, 0), new Vector3D(0, 1.523679 * AU, 0), 3389.5, 1E7, Brushes.OrangeRed);
-                simulator.addBody("Jupiter", 1.8986E27, new Vector3D(-13070, 0, 0), new Vector3D(0, 5.20260 * AU, 0), 71492, 1E6, Brushes.GhostWhite);
-                simulator.addBody("Europa", 5.799844E22, new Vector3D(-13070 - 13740, 0, 0), new Vector3D(0, 5.20260 * AU + 670900, 0), 1560.8, 1E6, Brushes.LightYellow);
-                simulator.addBody("Saturn", 5.6836E26, new Vector3D(0, 9690, 0), new Vector3D(9.554909 * AU, 0, 0), 58232, 1E6, Brushes.Gray);
-                simulator.addBody("Uranus", 8.6810E25, new Vector3D(6800, 0, 0), new Vector3D(0, -19.2184 * AU, 0), 25362, 1E8, Brushes.Cyan);
-                simulator.addBody("Neptune", 1.0243E26, new Vector3D(5430, 0, 0), new Vector3D(0, -30.110387 * AU, 0), 24622, 1E8, Brushes.Blue);
+                bodies.Add(new CelestialBody("Sun", 1.98855E30, origin, origin, 695700, 20, Brushes.Yellow));
+                bodies.Add(new CelestialBody("Earth", 5.97237E24, new Vector3D(149598023, 0, 0), new Vector3D(0, 29780, 0), 6371.0, 1E7, Brushes.Blue));
+                bodies.Add(new CelestialBody("Moon", 7.342E22, new Vector3D(149598023 + 384399, 0, 0), new Vector3D(0, 29780 + 1022, 0), 1737.1, 1E7, Brushes.White));
+                bodies.Add(new CelestialBody("Mercury", 3.3011E23, new Vector3D(57909050, 0, 0), new Vector3D(0, 47362, 0), 2439.7, 1E7, Brushes.Red));
+                bodies.Add(new CelestialBody("Venus", 4.8675E24, new Vector3D(-108208E3, 0, 0), new Vector3D(0, -35020, 0), 6051.8, 1E7, Brushes.Green));
+                bodies.Add(new CelestialBody("Mars", 6.4171E24, new Vector3D(0, 1.523679 * AU, 0), new Vector3D(-24077, 0, 0), 3389.5, 1E7, Brushes.OrangeRed));
+                bodies.Add(new CelestialBody("Jupiter", 1.8986E27, new Vector3D(0, 5.20260 * AU, 0), new Vector3D(-13070, 0, 0), 71492, 1E6, Brushes.GhostWhite));
+                bodies.Add(new CelestialBody("Europa", 5.799844E22, new Vector3D(0, 5.20260 * AU + 670900, 0), new Vector3D(-13070 - 13740, 0, 0), 1560.8, 1E6, Brushes.LightYellow));
+                bodies.Add(new CelestialBody("Saturn", 5.6836E26, new Vector3D(9.554909 * AU, 0, 0), new Vector3D(0, 9690, 0), 58232, 1E6, Brushes.Gray));
+                bodies.Add(new CelestialBody("Uranus", 8.6810E25, new Vector3D(0, -19.2184 * AU, 0), new Vector3D(6800, 0, 0), 25362, 1E8, Brushes.Cyan));
+                bodies.Add(new CelestialBody("Neptune", 1.0243E26, new Vector3D(0, -30.110387 * AU, 0), new Vector3D(5430, 0, 0), 24622, 1E8, Brushes.Blue));
 
 
                 /*
@@ -89,7 +90,7 @@ namespace SolarSystemSimulator
                 //myEllipse.StrokeThickness = 1;
                 //myCanvas.Children.Add(myEllipse);
 
-                foreach (CelestialBody body in simulator.GetBodies())
+                foreach (CelestialBody body in bodies)
                 {
                     Ellipse ellipse = new Ellipse();
                     ellipse.MouseLeftButtonDown += Ellipse_Click;
@@ -99,15 +100,17 @@ namespace SolarSystemSimulator
 
                 this.DataContext = simulator;
                 UpdateUI();
-            };
 
-            Timer aTimer = new Timer(10);
-            aTimer.Elapsed += new ElapsedEventHandler(RunEvent);
-            aTimer.Enabled = true;
+                Timer aTimer = new Timer(10);
+                aTimer.Elapsed += new ElapsedEventHandler(RunEvent);
+                aTimer.Enabled = true;
+            };
         }
 
-        private void UpdateCanvas(List<CelestialBody> bodies)
+        private void UpdateCanvas()
         {
+            List<CelestialBody> bodiesCopy = new List<CelestialBody>(bodies.Count);
+            foreach (CelestialBody body in bodies) bodiesCopy.Add(body.GetCopy());
 
             // First we rotate the plane to place camera to in line with negative side of y-axes. Then we tilt the plane to bring camera in line with Z-axis.
             // This way we have X-axis to the right, Y-axis to the up and Z-axis is depth with positive values being closer to camera.
@@ -121,19 +124,23 @@ namespace SolarSystemSimulator
             // This scales real coordinates to screen coordinates
             double screenScaling = myCanvas.ActualWidth / (Math.Tan(fieldOfView * Math.PI / 360.0) * cameraDistance * 2.0);
 
-            bodies.Sort(delegate (CelestialBody a, CelestialBody b)  // Sort for distance so we know drawing order
+            if (bodiesCopy.Exists(n => n.uniqueID == targetUniqueID)) // Lock camera on target if one exists
+            {
+                Vector3D position = bodiesCopy.Find(n => n.uniqueID == targetUniqueID).position;
+                camera = camera + position - cameraTarget;
+                cameraTarget = position;
+            }
+
+            bodiesCopy.Sort(delegate (CelestialBody a, CelestialBody b)  // Sort for distance so we know drawing order
             {
                 return (camera - b.position).Length.CompareTo((camera - a.position).Length);
             });
 
+            foreach (CelestialBody body in bodiesCopy) body.position = body.position - cameraTarget; // Translate position
 
-            if (bodies.Exists(n => n.uniqueID == targetUniqueID)) cameraTarget = bodies.Find(n => n.uniqueID == targetUniqueID).position;
-
-            foreach (CelestialBody body in bodies) body.position = body.position - cameraTarget; // Translate position
-
-            for (int i = 0; i < bodies.Count; i++)
+            for (int i = 0; i < bodiesCopy.Count; i++)
             {
-                CelestialBody body = bodies[i];
+                CelestialBody body = bodiesCopy[i];
                 Vector3D rotatedBody = rotation * body.position;
 
                 // To create the illusion of depth, objects are drawn closer to origin if they are further away.
@@ -164,10 +171,16 @@ namespace SolarSystemSimulator
 
         private void UpdateUI()
         {
-            List<CelestialBody> bodies = simulator.GetBodies();
+            if (simulator.isRunning)
+            {
+                bodies = simulator.GetBodies();
+                UpdateSpeedWarning();
+                UpdateAttributes(bodies);
+            }
+
             if (bodies.Count != ellipses.Count)
             {
-                List<int> keys = ellipses.Keys.ToList();
+                List<long> keys = ellipses.Keys.ToList();
                 foreach (int key in keys)
                 {
                     if (!bodies.Exists(n => n.uniqueID == key))
@@ -177,14 +190,9 @@ namespace SolarSystemSimulator
                     }
                 }
             }
-
+            
             UpdateCamera();
-            UpdateCanvas(bodies);
-            if (simulator.isRunning)
-            {
-                UpdateSpeedWarning();
-                UpdateAttributes(bodies);
-            }
+            UpdateCanvas();
         }
 
         private void UpdateSpeedWarning()
@@ -219,7 +227,8 @@ namespace SolarSystemSimulator
                     textBlock_colorB.Text = target.color.Color.B.ToString("G3");
 
                     textBlock_magnification.Text = target.magnification.ToString();
-                } else
+                }
+                else
                 {
                     targetUniqueID = 0;
                     foreach(UIElement element in AttributeTextBlocks.Children)
@@ -231,7 +240,8 @@ namespace SolarSystemSimulator
                 textBlock_simulationLength.Text = simulator.SimulationTime.ToString("0.00");
                 textBlock_step.Text = simulator.StepLength.ToString("0.00");
                 textBlock_targetSpeed.Text = simulator.TargetSpeed.ToString("0.00");
-            } else
+            }
+            else
             {
                 if (targetUniqueID > 0 && bodies.Exists(n => n.uniqueID == targetUniqueID))
                 {
@@ -267,7 +277,7 @@ namespace SolarSystemSimulator
                     textBox_step.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                     textBox_targetSpeed.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                 }
-            }           
+            }         
         }
 
         private void DrawCircle(Ellipse ellipse, double x, double y, double radius, double scale, SolidColorBrush color)
@@ -282,13 +292,16 @@ namespace SolarSystemSimulator
             double screenRadius = radius * scale;
             ellipse.Width = ellipse.Height = screenRadius * 2;
 
-            Canvas.SetLeft(ellipse, x * scale + OriginX - screenRadius);
-            Canvas.SetTop(ellipse, -y * scale + OriginY - screenRadius); // Y-axis should grow towards top
+            double coordX = x * scale + OriginX - screenRadius;
+            double coordY = -y * scale + OriginY - screenRadius; // Y-axis should grow towards top
+            
+            Canvas.SetLeft(ellipse, coordX);
+            Canvas.SetTop(ellipse, coordY); 
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateCanvas(simulator.GetBodies());
+            UpdateCanvas();
         }
 
         #region MenuItems
@@ -366,29 +379,26 @@ namespace SolarSystemSimulator
 
         private async void button_start_Click(object sender, RoutedEventArgs e)
         {
-            simulator.isRunning = !simulator.isRunning;
-
-            if (simulator.isRunning)
+            if (!simulator.isRunning)
             {
                 button_start.Content = "Stop";
                 AttributeTextBoxes.Visibility = Visibility.Collapsed;
                 AttributeTextBlocks.Visibility = Visibility.Visible;
-                UpdateAttributes(simulator.GetBodies());
+                UpdateAttributes(bodies);
 
-                Task task1 = new Task(simulator.StartSimulation);
-                Task task2 = new Task(simulator.MonitorTime);
+                Task task1 = Task.Run(() => simulator.StartSimulation(bodies));
+                Task task2 = Task.Run(() => simulator.MonitorTime());
 
-                task1.Start();
-                task2.Start();
-
-                await task1.ContinueWith((n) => Dispatcher.Invoke(() => UpdateAttributes(simulator.GetBodies()), DispatcherPriority.Normal));
+                await task1.ContinueWith((n) => Dispatcher.Invoke(() => {
+                    button_start.Content = "Start";
+                    AttributeTextBoxes.Visibility = Visibility.Visible;
+                    AttributeTextBlocks.Visibility = Visibility.Collapsed;
+                    UpdateAttributes(simulator.GetBodies());
+                }, DispatcherPriority.Normal));
             }
             else
             {
-                button_start.Content = "Start";
-                AttributeTextBoxes.Visibility = Visibility.Visible;
-                AttributeTextBlocks.Visibility = Visibility.Collapsed;
-                UpdateAttributes(simulator.GetBodies());
+                simulator.isRunning = false;
             }
         }
 
@@ -415,13 +425,13 @@ namespace SolarSystemSimulator
 
         private void Ellipse_Click(object sender, RoutedEventArgs e)
         {
-            foreach (KeyValuePair<int, Ellipse> pair in ellipses)
+            foreach (KeyValuePair<long, Ellipse> pair in ellipses)
             {
                 if (pair.Value == sender as Ellipse) targetUniqueID = pair.Key;
             }
 
             UpdateUI();
-            UpdateAttributes(simulator.GetBodies());
+            UpdateAttributes(bodies);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -429,7 +439,7 @@ namespace SolarSystemSimulator
             if (e.Key == Key.Escape)
             {
                 targetUniqueID = 0;
-                UpdateAttributes(simulator.GetBodies());
+                UpdateAttributes(bodies);
             }
         }
     }

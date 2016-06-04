@@ -63,22 +63,6 @@ namespace SolarSystemSimulator
             }
             return result;
         }
-
-        public void addBody(String name, double mass, Vector3D velocity, Vector3D position, double radius, double magnification, SolidColorBrush color)
-        {
-            if (!isRunning)
-            {
-                int uniqueID = 1;
-                while (bodies.Exists(n => n.uniqueID == uniqueID)) uniqueID += 1;
-                bodies.Add(new CelestialBody(name, mass, position, velocity, radius, magnification, color, uniqueID));
-            }
-        }
-
-        public CelestialBody GetBodyByID(int uniqueID)
-        {
-            if (bodies.Exists(n => n.uniqueID == uniqueID)) return bodies.Find(n => n.uniqueID == uniqueID);
-            else throw new ArgumentException("Body not found");
-        }
         #endregion
 
         #region The Runge-Kutta method
@@ -135,8 +119,11 @@ namespace SolarSystemSimulator
         #endregion
 
         #region Simulation
-        public void StartSimulation()
+        public void StartSimulation(List<CelestialBody> bodiesToSimulate)
         {
+            bodies = new List<CelestialBody>(bodiesToSimulate.Count); // Get a private copy of the bodies inserted to avoid alteration from other sources.
+            foreach (CelestialBody body in bodiesToSimulate) bodies.Add(body.GetCopy());
+
             ProcessCollisions();
             SimpleBody[] sBodies = new SimpleBody[bodies.Count];
             for (int i = 0; i < bodies.Count; i++) sBodies[i] = bodies[i].ToSimple();
@@ -144,12 +131,14 @@ namespace SolarSystemSimulator
             isTimedSimulation = simulationTime == 0.0 ? false : true;
             if (hasSpeedTarget) stepLength = 0.01F;
 
+            isRunning = true;
+
             while (isRunning && sBodies.Length > 0)
             {
-                float step = stepLength; // Use a local copy to ensure it won't be changed by other thread during iteration step
+                float step = stepLength; // Use a local copy to ensure it won't be changed by other thread during iteration step.
                 Rk4Integrate(sBodies, step);
 
-                for (int i = 0; i < bodies.Count; i++) // Update originals with new values
+                for (int i = 0; i < bodies.Count; i++) // Update originals with new values.
                 {
                     bodies[i].position = sBodies[i].position;
                     bodies[i].velocity = sBodies[i].velocity;
@@ -176,13 +165,13 @@ namespace SolarSystemSimulator
                     simulationTime += step / 86400.0;
                 }
 
-                Interlocked.Increment(ref iterations); // Used for speed calculations
+                Interlocked.Increment(ref iterations); // Used for speed calculations.
             }
 
             if (!isTimedSimulation) SimulationTime = 0.0;
         }
 
-        public void MonitorTime() // Async method used to control simulation speed
+        public void MonitorTime() // Async method used to control simulation speed.
         {
             Stopwatch timer = Stopwatch.StartNew();
             Thread.Sleep(100);

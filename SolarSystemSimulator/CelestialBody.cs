@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Runtime.Serialization;
 
 namespace SolarSystemSimulator
 {
@@ -17,9 +18,11 @@ namespace SolarSystemSimulator
         public double radius;
         public double magnification;
         public SolidColorBrush color;
-        public readonly int uniqueID;
+        public readonly long uniqueID;
 
-        public CelestialBody(String name, double mass, Vector3D position, Vector3D velocity, double radius, double magnification, SolidColorBrush color, int uniqueID)
+        private static ObjectIDGenerator idGen = new ObjectIDGenerator();
+
+        public CelestialBody(String name, double mass, Vector3D position, Vector3D velocity, double radius, double magnification, SolidColorBrush color)
         {
             this.name = name;
             this.mass = mass;
@@ -28,6 +31,13 @@ namespace SolarSystemSimulator
             this.radius = radius;
             this.magnification = magnification;
             this.color = color;
+
+            bool firstTime;
+            this.uniqueID = idGen.GetId(this, out firstTime);
+        }
+
+        private CelestialBody(string name, double mass, Vector3D position, Vector3D velocity, double radius, double magnification, SolidColorBrush color, long uniqueID) : this(name, mass, position, velocity, radius, magnification, color)
+        {
             this.uniqueID = uniqueID;
         }
 

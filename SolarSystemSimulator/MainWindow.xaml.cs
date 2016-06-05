@@ -63,7 +63,7 @@ namespace SolarSystemSimulator
                 bodies.Add(new CelestialBody("Saturn", 5.6836E26, new Vector3D(9.554909 * AU, 0, 0), new Vector3D(0, 9690, 0), 58232, 1E6, Brushes.Gray));
                 bodies.Add(new CelestialBody("Uranus", 8.6810E25, new Vector3D(0, -19.2184 * AU, 0), new Vector3D(6800, 0, 0), 25362, 1E8, Brushes.Cyan));
                 bodies.Add(new CelestialBody("Neptune", 1.0243E26, new Vector3D(0, -30.110387 * AU, 0), new Vector3D(5430, 0, 0), 24622, 1E8, Brushes.Blue));
-
+                bodies.Add(new CelestialBody("Monster", 6E30, new Vector3D(90 * AU, 4 * AU, 0), new Vector3D(-11000, 0, 0), 10E5, 50, Brushes.Bisque));
 
                 /*
                 PathFigure myPathFigure = new PathFigure();
@@ -277,7 +277,8 @@ namespace SolarSystemSimulator
                     textBox_step.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                     textBox_targetSpeed.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                 }
-            }         
+            }
+            textBlock_magnification.Text = simulator.simsPerSec.ToString("0");
         }
 
         private void DrawCircle(Ellipse ellipse, double x, double y, double radius, double scale, SolidColorBrush color)

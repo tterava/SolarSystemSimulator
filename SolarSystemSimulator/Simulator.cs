@@ -27,6 +27,8 @@ namespace SolarSystemSimulator
 
         private const double gravConst = 6.67408E-17;
 
+        public double simsPerSec = 0;
+
         #region Properties
         public double SimulationTime
         {
@@ -180,6 +182,7 @@ namespace SolarSystemSimulator
                 if (iterations > 0)
                 {
                     int i = Interlocked.Exchange(ref iterations, 0);
+                    simsPerSec = i / timer.Elapsed.TotalSeconds;
                     if (hasSpeedTarget) stepLength = (float)(targetSpeed * timer.Elapsed.TotalSeconds * 86400 / i);
                     else targetSpeed = stepLength * i / (timer.Elapsed.TotalSeconds * 86400);
                     timer.Restart();
